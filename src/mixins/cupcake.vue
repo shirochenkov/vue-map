@@ -6,11 +6,11 @@ export default {
   data () {
     return {
       cupcakes: '',
-      cupcakeLayers: L.featureGroup([])
+      cupcakeLayer: L.featureGroup([])
     }
   },
   watch: {
-    layers: function (val) {
+    chekedLayers: function (val) {
       if (val.includes('cupcake') && !this.cupcakes) {
         this._getCupcakes()
       } else if (!val.includes('cupcake') && this.cupcakes) {
@@ -26,24 +26,23 @@ export default {
       })
     },
     _initCupcakeLayer: function () {
-      let { map, cupcakeLayers, cupcakes } = this
+      let { map, cupcakeLayer, cupcakes } = this
       let myIcon = L.icon({
         iconUrl: cupcakeIcon,
         iconSize: [32, 32],
-        iconAnchor: [32, 32],
-        popupAnchor: [-16, -32]
+        popupAnchor: [0, -16]
       })
 
       cupcakes.map(cupcake => {
-        let marker = L.marker([cupcake.lat, cupcake.lng], {icon: myIcon}).addTo(cupcakeLayers)
+        let marker = L.marker([cupcake.lat, cupcake.lng], {icon: myIcon}).addTo(cupcakeLayer)
         marker.bindPopup(`<b>Cupcake!</b><br>lat: ${cupcake.lat}<br>lng: ${cupcake.lng}`)
       })
 
-      cupcakeLayers.addTo(map)
+      cupcakeLayer.addTo(map)
     },
     _removeCupcakeLayer: function () {
-      let { map, cupcakeLayers } = this
-      map.removeLayer(cupcakeLayers)
+      let { map, cupcakeLayer } = this
+      map.removeLayer(cupcakeLayer)
       this.cupcakes = ''
     }
   }

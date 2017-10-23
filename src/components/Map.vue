@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div ref="map" class="map"></div>
-    <map-panel @addType="addType" @removeType="removeType" :items="items"></map-panel>
+    <map-panel @addType="addType" @removeType="removeType" :layers="layers"></map-panel>
   </div>
 </template>
 
@@ -17,9 +17,9 @@ export default {
   mixins: [initMap, cupcake, groceries, pizza],
   data () {
     return {
-      layers: [],
       map: '',
-      items: [
+      chekedLayers: [],
+      layers: [
         { value: 'cupcake', type: 'Cupcake', enable: true },
         { value: 'groceries', type: 'Groceries', enable: false },
         { value: 'pizza', type: 'Pizza', enable: false }
@@ -29,12 +29,12 @@ export default {
   components: { MapPanel },
   methods: {
     addType: function (el) {
-      this.layers.push(el)
+      this.chekedLayers.push(el)
     },
     removeType: function (el) {
-      let { layers } = this
-      let index = layers.indexOf(el)
-      if (~index) { layers.splice(index, 1) }
+      let { chekedLayers } = this
+      let index = chekedLayers.indexOf(el)
+      if (~index) { chekedLayers.splice(index, 1) }
     }
   }
 }

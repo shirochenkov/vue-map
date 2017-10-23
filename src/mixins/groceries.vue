@@ -6,11 +6,11 @@ export default {
   data () {
     return {
       groceries: '',
-      groceriesLayers: L.featureGroup([])
+      groceriesLayer: L.featureGroup([])
     }
   },
   watch: {
-    layers: function (val) {
+    chekedLayers: function (val) {
       if (val.includes('groceries') && !this.groceries) {
         this._getGroceries()
       } else if (!val.includes('groceries') && this.groceries) {
@@ -26,24 +26,23 @@ export default {
       })
     },
     _initGroceriesLayer: function () {
-      let { map, groceriesLayers, groceries } = this
+      let { map, groceriesLayer, groceries } = this
       let myIcon = L.icon({
         iconUrl: groceriesIcon,
         iconSize: [32, 32],
-        iconAnchor: [32, 32],
-        popupAnchor: [-16, -32]
+        popupAnchor: [0, -16]
       })
 
       groceries.map(groceries => {
-        let marker = L.marker([groceries.lat, groceries.lng], {icon: myIcon}).addTo(groceriesLayers)
+        let marker = L.marker([groceries.lat, groceries.lng], {icon: myIcon}).addTo(groceriesLayer)
         marker.bindPopup(`<b>Groceries!</b><br>lat: ${groceries.lat}<br>lng: ${groceries.lng}`)
       })
 
-      groceriesLayers.addTo(map)
+      groceriesLayer.addTo(map)
     },
     _removeGroceriesLayer: function () {
-      let { map, groceriesLayers } = this
-      map.removeLayer(groceriesLayers)
+      let { map, groceriesLayer } = this
+      map.removeLayer(groceriesLayer)
       this.groceries = ''
     }
   }

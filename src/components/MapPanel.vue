@@ -1,8 +1,8 @@
 <template>
   <div class="map-panel">
-    <div v-for="item in items">
-      <input type="checkbox" :id="item.type" :value="item.value" @click="checkIt" v-model="item.enable">
-      <label :for="item.type">{{ item.type }}</label>
+    <div v-for="layer in layers">
+      <input type="checkbox" :id="layer.type" :value="layer.value" @click="checkIt" v-model="layer.enable">
+      <label :for="layer.type">{{ layer.type }}</label>
     </div>
   </div>
 </template>
@@ -13,15 +13,15 @@ export default {
   mounted: function () {
     this._initLayers()
   },
-  props: ['items'],
+  props: ['layers'],
   methods: {
     checkIt: function (event) {
       let { checked, value } = event.target
       checked ? this.$emit('addType', value) : this.$emit('removeType', value)
     },
     _initLayers: function () {
-      this.items.map(item => {
-        if (item.enable) this.$emit('addType', item.value)
+      this.layers.map(layer => {
+        if (layer.enable) this.$emit('addType', layer.value)
       })
     }
   }
